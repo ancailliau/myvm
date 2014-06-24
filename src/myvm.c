@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "myvm.h"
 
-int myvm_init (struct myvm_vm *vm)
+int myvm_init(struct myvm_vm *vm)
 {
   vm->fp =  0;
   vm->sp = -1;
@@ -22,7 +22,7 @@ int myvm_init (struct myvm_vm *vm)
   return 0;
 }
 
-void myvm_dispose (struct myvm_vm *vm)
+void myvm_dispose(struct myvm_vm *vm)
 {
   free(vm->sb);
 }
