@@ -24,7 +24,14 @@ TESTS_SOURCES=\
 	test_myvm_pushc.c \
 	test_myvm_pop.c \
 	test_myvm_swap.c \
-	test_myvm_dup.c 
+	test_myvm_dup.c \
+	test_myvm_save.c \
+	test_myvm_frame.c \
+	test_myvm_setlocal.c \
+	test_myvm_getlocal.c \
+	test_myvm_getparam.c \
+	test_myvm_ret.c \
+	test_myvm_retv.c
 
 TESTS_OBJECTS=$(TESTS_SOURCES:.c=.o)
 TESTS_EXECUTABLE=$(TESTS_SOURCES:.c=.out)

@@ -16,16 +16,22 @@ struct myvm_vm {
 int myvm_init(struct myvm_vm *vm);
 void myvm_dispose(struct myvm_vm *vm);
 void myvm_stack_push(struct myvm_vm *vm, int value);
+int myvm_run(struct myvm_vm *vm);
 
 #define INIT_STACK_SIZE 10
+#define FRAME_HEADER_SIZE 4
 
 #define OPCODE_MASK   0xFF000000
 #define OPCODE_OFFSET 24
 
-#define ARG0_MASK   0x00FFFFFF
+#define ARG0_MASK      0x00FFFFFF
+#define ARG_LEFT_MASK  0x00FFF000
+#define ARG_RIGHT_MASK 0x00000FFF
 
 #define get_opcode(instr) (instr & OPCODE_MASK) >> OPCODE_OFFSET
 #define get_arg0(instr) (instr & ARG0_MASK)
+#define get_arg_left(instr) (instr & ARG_LEFT_MASK) >> 12
+#define get_arg_right(instr) (instr & ARG_RIGHT_MASK)
 
 #define HLT      0x00
                  
@@ -69,12 +75,10 @@ void myvm_stack_push(struct myvm_vm *vm, int value);
 #define SAVE     0x20
 #define FRAME    0x21
 #define CALL     0x22
-#define RETI     0x23
-#define RETB     0x24
-#define RETV     0x25
-#define RET      0x26
+#define RETV     0x23
+#define RET      0x24
 
-#define SAY      0x27
+#define SAY      0x25
 
 void myvm_hlt      (int instr, struct myvm_vm *vm);
 
@@ -118,8 +122,6 @@ void myvm_getparam (int val, struct myvm_vm *vm);
 void myvm_save     (int local, int param, struct myvm_vm *vm);
 void myvm_frame    (int local, int param, struct myvm_vm *vm);
 void myvm_call     (int val, struct myvm_vm *vm);
-void myvm_reti     (struct myvm_vm *vm);
-void myvm_retb     (struct myvm_vm *vm);
 void myvm_retv     (struct myvm_vm *vm);
 void myvm_ret      (struct myvm_vm *vm);
 

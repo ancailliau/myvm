@@ -51,6 +51,16 @@ The following instructions are implemented
 * swap
 * dup
 * say
+* getlocal
+* setlocal
+* getparam
+* save
+* frame
+* call
+* reti
+* retb
+* retv
+* ret
 
 And the following instructions are not yet implemented
 
@@ -63,13 +73,3 @@ And the following instructions are not yet implemented
 * jmp
 * jeq
 * jne
-* getlocal
-* setlocal
-* getparam
-* save
-* frame
-* call
-* reti
-* retb
-* retv
-* ret
