@@ -27,9 +27,6 @@ void myvm_stack_push(struct myvm_vm *vm, int value);
 #define get_opcode(instr) (instr & OPCODE_MASK) >> OPCODE_OFFSET
 #define get_arg0(instr) (instr & ARG0_MASK)
 
-// value on top of the stack
-#define ssp(vm) *(vm.sb + vm.sp)
-
 #define HLT      0x00
                  
 #define ADD      0x01
