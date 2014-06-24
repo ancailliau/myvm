@@ -4,7 +4,6 @@ void test_not_1(void)
 {
   myvm_stack_push(&vm, 1);
   myvm_not(&vm);
-  printf("%i", vm.sb[vm.sp]);
   CU_ASSERT_EQUAL(vm.sb[vm.sp], 0);
 }
 
@@ -12,7 +11,6 @@ void test_not_0(void)
 {
   myvm_stack_push(&vm, 0);
   myvm_not(&vm);
-  printf("%i", vm.sb[vm.sp]);
   CU_ASSERT_EQUAL(vm.sb[vm.sp], 1);
 }
 

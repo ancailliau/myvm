@@ -6,7 +6,7 @@
 #include "CUnit/Console.h"
 #include "CUnit/Automated.h"
 
-#include "../src/myvm.h"
+#include "../../src/myvm.h"
 
 struct myvm_vm vm;
 
@@ -23,6 +23,7 @@ int clean_suite(void)
 
 #define TEST_SUITE(name, cond) int main()\
 {\
+  int errorNb; \
   CU_pSuite pSuite = NULL;\
   if (CUE_SUCCESS != CU_initialize_registry())\
     return CU_get_error();\
@@ -38,10 +39,11 @@ int clean_suite(void)
   printf("===== Tests for ");\
   printf(name);\
   printf(" ========================================");\
-  CU_basic_set_mode(CU_BRM_SILENT);\
+  CU_basic_set_mode(CU_BRM_VERBOSE);\
   CU_basic_run_tests();\
   CU_basic_show_failures(CU_get_failure_list());\
   printf("\n\n");\
+  errorNb = CU_get_number_of_failures();\
   CU_cleanup_registry();\
-  return CU_get_error();\
+  return CU_get_error() | errorNb > 0;\
 }

@@ -1,0 +1,17 @@
+language: c
+
+compiler:
+  - gcc
+
+env:
+  - C_INCLUDE_PATH=/usr/include/CUnit/ LIBRARY_PATH=/usr/lib/
+
+before_install:
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq libcunit1 libcunit1-dev
+
+script: 
+  - cd ./src
+  - make
+  - cd ../test/small
+  - make run

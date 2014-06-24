@@ -5,6 +5,11 @@ myvm
 machine implements a small set of instructions. This virtual machine is 
 based on the virtual machine described in this book.
 
+* Travis (https://travis-ci.org/ancailliau/myvm/) ![travis build](https://travis-ci.org/ancailliau/myvm.svg?branch=master)
+
+In progress documentation
+-------------------------
+
 The first eight bits represents the opcode. The trailing bits represents
 the argument (or the arguments), as the following schema shows.
 

@@ -46,43 +46,43 @@ int main(int argc, char *argv[])
         myvm_sub(&vm);
         break;
       case MLT:
-        myvm_mlt(instr, &vm);
+        myvm_mlt(&vm);
         break;
       case DIV:
-        myvm_div(instr, &vm);
+        myvm_div(&vm);
         break;
       case MOD:
-        myvm_mod(instr, &vm);
+        myvm_mod(&vm);
         break;
       case MINUS:
-        myvm_minus(instr, &vm);
+        myvm_minus(&vm);
         break;
       case AND:
-        myvm_and(instr, &vm);
+        myvm_and(&vm);
         break;
       case OR:
-        myvm_or(instr, &vm);
+        myvm_or(&vm);
         break;
       case NOT:
-        myvm_not(instr, &vm);
+        myvm_not(&vm);
         break;
       case LT:
-        myvm_lt(instr, &vm);
+        myvm_lt(&vm);
         break;
       case GT:
-        myvm_gt(instr, &vm);
+        myvm_gt(&vm);
         break;
       case EQ:
-        myvm_eq(instr, &vm);
+        myvm_eq(&vm);
         break;
       case LEQ:
-        myvm_leq(instr, &vm);
+        myvm_leq(&vm);
         break;
       case GEQ:
-        myvm_geq(instr, &vm);
+        myvm_geq(&vm);
         break;
       case NEQ:
-        myvm_neq(instr, &vm);
+        myvm_neq(&vm);
         break;
       case PUSHC:
         myvm_pushc(get_arg0(instr), &vm);
@@ -97,64 +97,64 @@ int main(int argc, char *argv[])
         myvm_dup(&vm);
         break;
       case GETGLOB:
-        myvm_getglob(instr, &vm);
+        myvm_getglob(get_arg0(instr), &vm);
         break;
       case SETGLOB:
-        myvm_setglob(instr, &vm);
+        myvm_setglob(get_arg0(instr), &vm);
         break;
       case GETLIT:
-        myvm_getlit(instr, &vm);
+        myvm_getlit(get_arg0(instr), &vm);
         break;
       case MKVEC:
-        myvm_mkvec(instr, &vm);
+        myvm_mkvec(get_arg0(instr), &vm);
         break;
       case VREF:
-        myvm_vref(instr, &vm);
+        myvm_vref(get_arg0(instr), &vm);
         break;
       case VSET:
-        myvm_vset(instr, &vm);
+        myvm_vset(get_arg0(instr), &vm);
         break;
       case JMP:
-        myvm_jmp(instr, &vm);
+        myvm_jmp(&vm);
         break;
       case JEQ:
-        myvm_jeq(instr, &vm);
+        myvm_jeq(&vm);
         break;
       case JNE:
-        myvm_jne(instr, &vm);
+        myvm_jne(&vm);
         break;
       case GETLOCAL:
-        myvm_getlocal(instr, &vm);
+        myvm_getlocal(get_arg0(instr), &vm);
         break;
       case SETLOCAL:
-        myvm_setlocal(instr, &vm);
+        myvm_setlocal(get_arg0(instr), &vm);
         break;
       case GETPARAM:
-        myvm_getparam(instr, &vm);
+        myvm_getparam(get_arg0(instr), &vm);
         break;
       case SAVE:
-        myvm_save(instr, &vm);
+        myvm_save(0, 0, &vm);
         break;
       case FRAME:
-        myvm_frame(instr, &vm);
+        myvm_frame(0, 0, &vm);
         break;
       case CALL:
-        myvm_call(instr, &vm);
+        myvm_call(0, &vm);
         break;
       case RETI:
-        myvm_reti(instr, &vm);
+        myvm_reti(&vm);
         break;
       case RETB:
-        myvm_retb(instr, &vm);
+        myvm_retb(&vm);
         break;
       case RETV:
-        myvm_retv(instr, &vm);
+        myvm_retv(&vm);
         break;
       case RET:
-        myvm_ret(instr, &vm);
+        myvm_ret(&vm);
         break;
       case SAY:
-        myvm_say(instr, &vm);
+        myvm_say(&vm);
         break;
       default:
         printf("ERROR\n");

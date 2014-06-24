@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-c -Wall -I$(C_INCLUDE_PATH)
-LDFLAGS=-lcunit -L$(LIBRARY_PATH)
+LDFLAGS=-L$(LIBRARY_PATH)
 
-VM_SOURCES=../src/myvm.c
+VM_SOURCES=../../src/myvm.c
 VM_OBJECTS=$(VM_SOURCES:.c=.o)
 
 TESTS_SOURCES=\
@@ -32,7 +32,7 @@ TESTS_EXECUTABLE=$(TESTS_SOURCES:.c=.out)
 all: $(TESTS_EXECUTABLE)
 
 .o.out:
-	$(CC) $(LDFLAGS) $(VM_OBJECTS) $< -o $@
+	$(CC) $(LDFLAGS) $(VM_OBJECTS) $< -o $@  -lcunit 
 
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
