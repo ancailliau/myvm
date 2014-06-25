@@ -8,11 +8,15 @@
 
 #include "../../src/myvm.h"
 
+#ifndef GLOBAL_AREA_SIZE
+#define GLOBAL_AREA_SIZE 0
+#endif
+
 struct myvm_vm vm;
 
 int init_suite(void)
 {
-  return myvm_init (&vm);
+  return myvm_init (&vm, GLOBAL_AREA_SIZE);
 }
 
 int clean_suite(void)
@@ -45,5 +49,5 @@ int clean_suite(void)
   printf("\n\n");\
   errorNb = CU_get_number_of_failures();\
   CU_cleanup_registry();\
-  return CU_get_error() | errorNb > 0;\
+  return CU_get_error() || errorNb > 0;\
 }

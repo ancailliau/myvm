@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "myvm.h"
 
-int myvm_init(struct myvm_vm *vm)
+int myvm_init (struct myvm_vm *vm, int global_size)
 {
   vm->fp = -1;
   vm->sp = -1;
@@ -18,6 +18,12 @@ int myvm_init(struct myvm_vm *vm)
   }
   
   vm->sl = 20;
+  
+  vm->gb = malloc(global_size * sizeof(int));
+  if (vm->gb == NULL) {
+    printf("Unable to allocate global area");
+    return 1;
+  }
   
   return 0;
 }
@@ -307,12 +313,16 @@ void myvm_dup(struct myvm_vm *vm)
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp - 1);
 }
 
-void myvm_getglob(int val, struct myvm_vm *vm)
+void myvm_getglob(int n, struct myvm_vm *vm)
 {
+  vm->sp++;
+  *(vm->sb + vm->sp) = *(vm->gb + n);
 }
 
-void myvm_setglob(int val, struct myvm_vm *vm)
+void myvm_setglob(int n, struct myvm_vm *vm)
 {
+  *(vm->gb + n) = *(vm->sb + vm->sp);
+  vm->sp--;
 }
 
 void myvm_getlit(int val, struct myvm_vm *vm)

@@ -31,7 +31,9 @@ TESTS_SOURCES=\
 	test_myvm_getlocal.c \
 	test_myvm_getparam.c \
 	test_myvm_ret.c \
-	test_myvm_retv.c
+	test_myvm_retv.c \
+	test_myvm_getglob.c \
+	test_myvm_setglob.c
 
 TESTS_OBJECTS=$(TESTS_SOURCES:.c=.o)
 TESTS_EXECUTABLE=$(TESTS_SOURCES:.c=.out)
