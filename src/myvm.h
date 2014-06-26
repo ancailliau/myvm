@@ -111,9 +111,9 @@ void myvm_mkvec    (int val, struct myvm_vm *vm);
 void myvm_vref     (int val, struct myvm_vm *vm);
 void myvm_vset     (int val, struct myvm_vm *vm);
 
-void myvm_jmp      (struct myvm_vm *vm);
-void myvm_jeq      (struct myvm_vm *vm);
-void myvm_jne      (struct myvm_vm *vm);
+void myvm_jmp      (int n, struct myvm_vm *vm);
+void myvm_jeq      (int n, struct myvm_vm *vm);
+void myvm_jne      (int n, struct myvm_vm *vm);
 
 void myvm_getlocal (int val, struct myvm_vm *vm);
 void myvm_setlocal (int val, struct myvm_vm *vm);

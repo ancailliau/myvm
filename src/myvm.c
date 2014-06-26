@@ -59,7 +59,6 @@ int myvm_run(struct myvm_vm *vm)
     int instr = vm->code[vm->ip];
     
     opcode = get_opcode(instr);
-    vm->ip++;
     
     switch (opcode) {
       case HLT:
@@ -141,13 +140,13 @@ int myvm_run(struct myvm_vm *vm)
         myvm_vset(get_arg0(instr), vm);
         break;
       case JMP:
-        myvm_jmp(vm);
+        myvm_jmp(get_arg0(instr), vm);
         break;
       case JEQ:
-        myvm_jeq(vm);
+        myvm_jeq(get_arg0(instr), vm);
         break;
       case JNE:
-        myvm_jne(vm);
+        myvm_jne(get_arg0(instr), vm);
         break;
       case GETLOCAL:
         myvm_getlocal(get_arg0(instr), vm);
@@ -197,18 +196,21 @@ void myvm_add(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) + *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_sub(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) - *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_mlt(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) * *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_div(struct myvm_vm *vm)
@@ -219,6 +221,7 @@ void myvm_div(struct myvm_vm *vm)
   }
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) / *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_mod(struct myvm_vm *vm)
@@ -229,23 +232,27 @@ void myvm_mod(struct myvm_vm *vm)
   }
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) % *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_minus(struct myvm_vm *vm)
 {
   *(vm->sb + vm->sp) = - *(vm->sb + vm->sp);
+  vm->ip++;
 }
 
 void myvm_and(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) && *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_or(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) || *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_not(struct myvm_vm *vm)
@@ -254,42 +261,49 @@ void myvm_not(struct myvm_vm *vm)
     *(vm->sb + vm->sp) = 0;
   else
     *(vm->sb + vm->sp) = 1;
+  vm->ip++;
 }
 
 void myvm_lt(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) < *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_gt(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) > *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_eq(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) == *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_leq(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) <= *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_geq(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) >= *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_neq(struct myvm_vm *vm)
 {
   vm->sp--;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp) != *(vm->sb + vm->sp + 1);
+  vm->ip++;
 }
 
 void myvm_pushc(int val, struct myvm_vm *vm)
@@ -301,11 +315,13 @@ void myvm_pushc(int val, struct myvm_vm *vm)
   
   vm->sp++;  
   *(vm->sb + vm->sp) = val;
+  vm->ip++;
 }
 
 void myvm_pop(struct myvm_vm *vm)
 {
   vm->sp--;
+  vm->ip++;
 }
 
 void myvm_swap(struct myvm_vm *vm)
@@ -313,12 +329,14 @@ void myvm_swap(struct myvm_vm *vm)
   int value = *(vm->sb + vm->sp - 1);
   *(vm->sb + vm->sp - 1) = *(vm->sb + vm->sp);
   *(vm->sb + vm->sp) = value;
+  vm->ip++;
 }
 
 void myvm_dup(struct myvm_vm *vm)
 {
   vm->sp++;
   *(vm->sb + vm->sp) = *(vm->sb + vm->sp - 1);
+  vm->ip++;
 }
 
 void myvm_getglob(int n, struct myvm_vm *vm)
@@ -349,16 +367,25 @@ void myvm_vset(int val, struct myvm_vm *vm)
 {
 }
 
-void myvm_jmp(struct myvm_vm *vm)
+void myvm_jmp(int l, struct myvm_vm *vm)
 {
+  vm->ip = l;
 }
 
-void myvm_jeq(struct myvm_vm *vm)
+void myvm_jeq(int l, struct myvm_vm *vm)
 {
+  if (*(vm->sb + vm->sp) > 0)
+    vm->ip = l;
+  else
+    vm->ip++;
 }
 
-void myvm_jne(struct myvm_vm *vm)
+void myvm_jne(int l, struct myvm_vm *vm)
 {
+  if (*(vm->sb + vm->sp) == 0)
+    vm->ip = l;
+  else
+    vm->ip++;
 }
 
 void myvm_getlocal(int n, struct myvm_vm *vm)
@@ -431,4 +458,5 @@ void myvm_say(struct myvm_vm *vm)
 {
   printf("%i", *(vm->sb + vm->sp));
   vm->sp--;
+  vm->ip++;
 }
