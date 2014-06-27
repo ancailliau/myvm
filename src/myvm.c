@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "myvm.h"
 
-int myvm_init (struct myvm_vm *vm, int global_size)
+int myvm_init (struct myvm_vm *vm, int global_size, int literal_size)
 {
   vm->fp = -1;
   vm->sp = -1;
@@ -25,12 +25,20 @@ int myvm_init (struct myvm_vm *vm, int global_size)
     return 1;
   }
   
+  vm->lb = malloc(literal_size * sizeof(char));
+  if (vm->lb == NULL) {
+    printf("Unable to allocate literal area");
+    return 1;
+  }
+  
   return 0;
 }
 
 void myvm_dispose(struct myvm_vm *vm)
 {
   free(vm->sb);
+  free(vm->gb);
+  free(vm->lb);
 }
 
 void myvm_stack_push(struct myvm_vm *vm, int value)
@@ -325,7 +333,7 @@ void myvm_setglob(int n, struct myvm_vm *vm)
   vm->sp--;
 }
 
-void myvm_getlit(int val, struct myvm_vm *vm)
+void myvm_getlit(int n, struct myvm_vm *vm)
 {
 }
 

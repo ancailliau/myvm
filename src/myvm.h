@@ -13,7 +13,7 @@ struct myvm_vm {
            int code_len;
 };
 
-int myvm_init(struct myvm_vm *vm, int global_size);
+int myvm_init(struct myvm_vm *vm, int global_size, int literal_size);
 void myvm_dispose(struct myvm_vm *vm);
 void myvm_stack_push(struct myvm_vm *vm, int value);
 int myvm_run(struct myvm_vm *vm);

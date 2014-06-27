@@ -12,11 +12,15 @@
 #define GLOBAL_AREA_SIZE 0
 #endif
 
+#ifndef LITERAL_AREA_SIZE
+#define LITERAL_AREA_SIZE 0
+#endif
+
 struct myvm_vm vm;
 
 int init_suite(void)
 {
-  return myvm_init (&vm, GLOBAL_AREA_SIZE);
+  return myvm_init (&vm, GLOBAL_AREA_SIZE, LITERAL_AREA_SIZE);
 }
 
 int clean_suite(void)
