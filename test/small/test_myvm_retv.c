@@ -17,7 +17,7 @@ void test_retv(void)
   
   CU_ASSERT_EQUAL(*(vm.sb + vm.sp), 31);
   CU_ASSERT_EQUAL(vm.sp, 1);
-  CU_ASSERT_EQUAL(vm.ip, 0);
+  CU_ASSERT_EQUAL(vm.ip, 5);
   CU_ASSERT_EQUAL(vm.fp, -1);
 }
 

@@ -392,12 +392,14 @@ void myvm_getlocal(int n, struct myvm_vm *vm)
 {
   vm->sp++;
   *(vm->sb + vm->sp) = *(vm->sb + vm->fp + FRAME_HEADER_SIZE + n);
+  vm->ip++;
 }
 
 void myvm_setlocal(int n, struct myvm_vm *vm)
 {
   *(vm->sb + vm->fp + FRAME_HEADER_SIZE + n) = *(vm->sb + vm->sp);
   vm->sp--;
+  vm->ip++;
 }
 
 void myvm_getparam(int n, struct myvm_vm *vm)
@@ -406,6 +408,7 @@ void myvm_getparam(int n, struct myvm_vm *vm)
   vm->sp++;
   l = *(vm->sb + vm->fp + 3); 
   *(vm->sb + vm->sp) = *(vm->sb + vm->fp + FRAME_HEADER_SIZE + l + n);
+  vm->ip++;
 }
 
 void myvm_save(int l, int p, struct myvm_vm *vm)
@@ -422,17 +425,19 @@ void myvm_save(int l, int p, struct myvm_vm *vm)
   *(vm->sb + vm->sp - 1) = p;
   *(vm->sb + vm->sp - 2) = vm->fp;
   vm->sp = vm->sp + l;
+  vm->ip++;
 }
 
 void myvm_frame(int l, int p, struct myvm_vm *vm)
 {
   vm->fp = vm->sp - (FRAME_HEADER_SIZE + l + p) + 1;
+  vm->ip++;
 }
 
 void myvm_call(int val, struct myvm_vm *vm)
 {
   // store next instruction pointer in frame
-  *(vm->sb + vm->fp) = vm->ip;
+  *(vm->sb + vm->fp) = vm->ip + 1;
   vm->ip = val;
 }
 

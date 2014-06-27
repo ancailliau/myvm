@@ -15,7 +15,7 @@ void test_ret(void)
   myvm_ret(&vm);
   
   CU_ASSERT_EQUAL(vm.sp, 0);
-  CU_ASSERT_EQUAL(vm.ip, 0);
+  CU_ASSERT_EQUAL(vm.ip, 5);
   CU_ASSERT_EQUAL(vm.fp, -1);
 }
 
